@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" routerLink="/main">Trattoria</a>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/items-list">Restaurant menu<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/edit-menu">Edit menu</a>
+      </li>
+    </ul>
+  </div>
+  <div>
+    <ul>
+      <li *ngIf="!logged" class="nav-link active ml-auto">
+        <a [routerLink]="['login']">Login</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<router-outlet class="bck-clr"></router-outlet>

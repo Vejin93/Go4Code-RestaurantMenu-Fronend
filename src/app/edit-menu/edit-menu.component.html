@@ -1,0 +1,105 @@
+<div class="bck-clr">
+    <div class="bck-clr2 w-75 p-3 mx-auto" style="width: 200px;">
+        <h2>
+            Tratoria La Campana
+        </h2>
+        <h5>
+            ...perfect place to grab a quick bite and wash it down with some local wine...
+        </h5><br>
+    </div><br>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm ">
+                <div class="w-25 p-3">
+                    <app-filter-by-name-items class="bck-clr" (setNameItem)="filterItems($event)">
+                    </app-filter-by-name-items><br>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm ">
+                <table class="table table-striped table-hover bck-clr table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bck-clr" *ngFor="let item of items; let i = index" class="col-4">
+                            <td>{{item.name}}</td>
+                            <td>{{item.category.nameCategory}}</td>
+                            <td>{{item.price}}</td>
+                            <td>
+                                <div class="input-group-append bck-clr">
+                                    <button class="btn btn-danger text-danger bck-clr" type="button"
+                                        (click)="deleteItem(item.id)">Delete</button>
+                                    <button class="btn btn-primary text-primary bck-clr" type="button"
+                                        (click)="updateItem(item.id)">Update</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm">
+                <form #itemForm="ngForm" class="container div2 border border-light">
+                    <label>Add new item:</label>
+                    <div class="form-group">
+                        <!-- <label for="description">Add name item:<span class="require"></span></label> -->
+                        <input type="text" class="form-control" placeholder="Enter item name" name="itemName"
+                            [(ngModel)]="newItem.name" />
+                    </div>
+
+                    <div>
+                        <select title="categories" name="categories" class="form-control"
+                            [(ngModel)]="newItem.category">
+                            <option>Select category</option>
+                            <option [value]="newItem.category" *ngFor="let category of categories">
+                                {{category.nameCategory}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="title">Add price:<span class="require"></span></label>
+                        <input type="text" class="form-control" title="title" name="itemPrice" placeholder="Enter price"
+                            [(ngModel)]="newItem.price" />
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" (click)="addItem()">Create</button>
+                        <button class="btn btn-default" [routerLink]="['/edit-menu']"> Cancel </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <div>
+        <div>
+
+        </div>
+        <div>
+
+        </div>
+    </div>
+
+    <div class="div1">
+
+    </div>
+    <div class="div2">
+
+        <!-- <div>
+            <button type="submit" class="btn btn-primary" (click)="getAllCategory()">All category</button>
+            <div *ngFor="let category of categories">
+                <p>{{category.nameCategory}}</p>
+            </div>
+        </div> -->
+    </div>
+
+</div>

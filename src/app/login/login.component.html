@@ -1,0 +1,38 @@
+<div class="bck-clr">
+  <div class="bck-clr">
+    <div class="container">
+      <div class="row">
+        <div class="main"><br><br><br>
+          <h5>Please Log In</h5>
+          <div class="row"></div>
+          <div class="login-or">
+            <hr class="hr-or" />
+          </div>
+
+          <form role="form">
+            <div class="form-group">
+              <p *ngIf="error" class="error">Wrong username or password</p>
+              <label for="inputUsernameEmail">Username</label>
+              <input type="text" [(ngModel)]="userDto.username" class="form-control" id="inputUsernameEmail"
+                name="name2" />
+            </div>
+            <div class="form-group">
+              <label for="inputPassword">Password</label>
+              <input type="password" [(ngModel)]="userDto.password" class="form-control" id="inputPassword"
+                name="name1" />
+            </div>
+            <div class="checkbox pull-right">
+              <label>
+                <input type="checkbox" />
+                Remember me
+              </label>
+            </div>
+            <button type="submit" (click)="login()" class="btn btn btn-primary">
+              Log In
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
