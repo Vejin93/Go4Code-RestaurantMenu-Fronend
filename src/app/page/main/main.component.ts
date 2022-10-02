@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppServiceService } from 'src/app/app-service.service';
 
 @Component({
   selector: 'app-main',
@@ -6,10 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-
-  constructor() { }
+  
+  public logged: boolean;
+  
+  constructor(private appServiceService: AppServiceService) {
+    localStorage.getItem('user') === null
+      ? (this.logged = false)
+      : (this.logged = true);
+   }
 
   ngOnInit(): void {
+    this.appServiceService.editUser(localStorage.getItem('user'));
   }
 
 }

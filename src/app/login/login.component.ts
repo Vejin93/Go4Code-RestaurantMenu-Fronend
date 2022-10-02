@@ -22,14 +22,24 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  login() {
-    this.appServiceService.login(this.userDto).subscribe((res) => {
-      if (res === null) {
-        this.error = true;
-      } else {
-        localStorage.setItem('user', JSON.stringify(res));
-        this.route.navigate(['/items-list']);
-      }
-    });
+  
+  async login() {
+    // this.appServiceService.login(this.userDto).subscribe((res) => {
+    //   if (res === null) {
+    //     this.error = true;
+    //   } else {
+    //     localStorage.setItem('user', JSON.stringify(res));
+    //     this.route.navigate(['/items-list']);
+    //   }
+    // })
+    let loginResult=await this.appServiceService.login(this.userDto);
+    if (loginResult === null) {
+          this.error = true;
+        } else {
+          localStorage.setItem('user', JSON.stringify(loginResult));
+          // this.appServiceService.editUser.
+          this.route.navigate(['/items-list']);
+          this.appServiceService.currentUser.next(this.userDto);
+        }
   }
 }

@@ -15,12 +15,13 @@ export class AppComponent {
 
   constructor(private appServiceService: AppServiceService) {
     this.logged = false;
+    this.appServiceService.currentUser.subscribe((res) =>{
+      res !== null ? (this.logged = true) : (this.logged = false)
+      console.log("asdasd")
+    });
   }
 
   ngOnInit() {
-    this.appServiceService.cast.subscribe((res) =>
-      res != null ? (this.logged = true) : (this.logged = false)
-    );
   }
 
   logout() {

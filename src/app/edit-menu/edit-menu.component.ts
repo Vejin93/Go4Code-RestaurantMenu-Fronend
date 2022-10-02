@@ -18,14 +18,15 @@ export class EditMenuComponent implements OnInit {
 
   public newItem: Item;
   public newCategory: Category;
-  public categories: Category[]=[];
+  public categories: Category[] = [];
+  public selectedCategory: Category|null = null;
 
   @ViewChild('itemForm') form!: NgForm;
   editMode: boolean = false;
 
-  changeCategory(e:any){
-    this.newCategory = e.target.value;
-  }
+  // changeCategory(e: any) {
+  //   this.newCategory = e.target.value;
+  // }
 
   constructor(private appServiceService: AppServiceService, private router: Router) {
     this.newCategory = {
@@ -38,13 +39,16 @@ export class EditMenuComponent implements OnInit {
       price: 0
     }
 
-    this.categories=[];
+    this.categories = [];
   }
 
   ngOnInit(): void {
     this.loadData();
     this.getAllCategory();
   }
+
+  public myComponentVariableName: string = 'Create';
+
 
   loadData() {
     this.appServiceService.loadData().subscribe((res: Item[]) => { this.items = res });
@@ -66,14 +70,27 @@ export class EditMenuComponent implements OnInit {
     })
   }
 
+  onChange(event: any){
+    console.log(event);
+    this.selectedCategory=event.value;
+    console.log(this.selectedCategory);
+    if(this.editMode){
+      
+    }
+  }
+
   updateItem(id: number | undefined) {
     let items: Item[] = [];
     let currentItem = this.items.find((i) => { return i.id === id })
-    this.newItem.id=currentItem?.id;
-    this.newItem.name = currentItem?.name !== undefined ? currentItem?.name : '';
-    this.newItem.category = currentItem?.category !== undefined ? currentItem?.category : this.newCategory;
-    this.newItem.price = currentItem?.price !== undefined ? currentItem?.price : 0;
-    
+    if(currentItem){
+      this.newItem=currentItem;
+      this.selectedCategory=this.newItem.category;
+      // console.log(this.selectedCategory);
+    }
+
+    this.appServiceService.updateItem(this.newItem.id as number, this.newItem).subscribe((res)=>this.newItem=res)
+
+    this.loadData();
     console.log();
 
     this.editMode = true;
@@ -81,12 +98,10 @@ export class EditMenuComponent implements OnInit {
 
   addItem() {
     if (!this.editMode) {
-      this.appServiceService.addItem(this.newItem).subscribe((res: Item) => {
+    this.appServiceService.addItem(this.newItem).subscribe((res: Item) => {
         this.newItem = res;
         this.router.navigate(['/edit-menu']);
-        this.newCategory = {
-          nameCategory: ''
-        }
+        this.newCategory=this.selectedCategory!;
 
         this.newItem = {
           name: '',
@@ -98,9 +113,11 @@ export class EditMenuComponent implements OnInit {
     }else{
       this.appServiceService.updateItem(this.newItem.id?this.newItem.id:0,this.newItem).subscribe();
     }
-  }
+    }
+  
 
-  reset(){
+  reset() {
+    this.editMode = false;
     this.newCategory = {
       nameCategory: ''
     }
@@ -114,9 +131,9 @@ export class EditMenuComponent implements OnInit {
     this.loadData();
   }
 
-  getAllCategory(){
-    this.appServiceService.getAllCategory().subscribe((res=>this.categories=res))
-    // console.log(this.categories)
+  getAllCategory() {
+    this.appServiceService.getAllCategory().subscribe((res => this.categories = res))
   }
+
 
 }

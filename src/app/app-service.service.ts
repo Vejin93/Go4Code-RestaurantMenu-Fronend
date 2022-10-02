@@ -5,6 +5,7 @@ import { UserDto } from './DTO/UserDTO.component';
 import { Category } from './model/category.component';
 import { Item } from './model/item.component';
 import { User } from './model/User.component';
+import {ItemDTO} from './DTO/ItemDTO.component';
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +18,16 @@ export class AppServiceService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  private currentUser = new BehaviorSubject<User | null>(null);
-  cast = this.currentUser.asObservable();
+  public currentUser = new BehaviorSubject<User | null>(null);
+  // cast = this.currentUser.asObservable();
   public loggedUser: User | null;
 
   constructor(private http: HttpClient) {
     this.loggedUser = null;
+  }
+
+  editUser(newUser: any) {
+    this.currentUser.next(newUser);
   }
 
   loadData(): Observable<Item[]> { return this.http.get<Item[]>(`${this.itemsUrl}`) }
@@ -38,6 +43,6 @@ export class AppServiceService {
 
   deleteItem(id: number | undefined) { return this.http.delete<any>(`http://localhost:8080/api/items/${id}`) }
 
-  updateItem(id: number, newItem: Item): Observable<any> { return this.http.put(`http://localhost:8080/api/items/${id}` + '.json', newItem) }
+  updateItem(id: number, newItem: ItemDTO): Observable<any> { return this.http.put(`http://localhost:8080/api/items/${id}` , newItem, this.httpOptions) }
 
 }
